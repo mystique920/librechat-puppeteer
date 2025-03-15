@@ -33,11 +33,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'package.json'
       
       - name: Install dependencies
         run: |
-          # Try to use npm ci, but fall back to npm install if it fails
-          npm ci || npm install
+          # Force clean install without using lock file
+          rm -f package-lock.json
+          npm install
       
       - name: Run linting
         run: npm run lint
@@ -68,11 +71,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'package.json'
       
       - name: Install dependencies
         run: |
-          # Try to use npm ci, but fall back to npm install if it fails
-          npm ci || npm install
+          # Force clean install without using lock file
+          rm -f package-lock.json
+          npm install
       
       - name: Run tests
         run: npm test
