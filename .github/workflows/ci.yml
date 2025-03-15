@@ -37,9 +37,14 @@ jobs:
       
       - name: Install dependencies
         run: |
-          # Force clean install without using lock file
-          rm -f package-lock.json
-          npm install
+          echo "Environment debug: Locating package-lock.json"
+          if [ -f package-lock.json ]; then
+            echo "package-lock.json found:" 
+            head -n 20 package-lock.json
+          else
+            echo "Error: package-lock.json not found!"
+          fi
+          npm ci
       
       - name: Run linting
         run: npm run lint
@@ -74,9 +79,14 @@ jobs:
       
       - name: Install dependencies
         run: |
-          # Force clean install without using lock file
-          rm -f package-lock.json
-          npm install
+          echo "Environment debug: Locating package-lock.json"
+          if [ -f package-lock.json ]; then
+            echo "package-lock.json found:" 
+            head -n 20 package-lock.json
+          else
+            echo "Error: package-lock.json not found!"
+          fi
+          npm ci
       
       - name: Run tests
         run: npm test
