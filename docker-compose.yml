@@ -1,0 +1,52 @@
+version: '3.8'
+
+# Define networks - use LIBRECHAT_NETWORK env var to specify which network to connect to
+networks:
+  # This will be replaced with the actual LibreChat network at runtime
+  librechat_network:
+    external: true
+    name: ${LIBRECHAT_NETWORK:-librechat_default}
+  mcp-services:
+    driver: bridge
+
+services:
+  puppeteer-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: puppeteer-service  # Correct name as intended
+    ports:
+      - "3000:3000"  # MCP port
+      - "3007:3007"  # REST API port
+    # For development, we can mount the source files
+    # But we don't mount the dist directory to use the built files in the container
+    volumes:
+      - ./src:/app/src
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      # Mode configuration (default to REST API mode)
+      - MCP_MODE=${MCP_MODE:-false}
+      - REST_PORT=3007
+      # Add LibreChat API URL for integration testing
+      - LIBRECHAT_API_URL=http://LibreChat:3080
+    restart: unless-stopped
+    # Increase shared memory size for Chromium
+    shm_size: 1gb
+    # Set resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    # Add healthcheck - use REST API port for health check if MCP_MODE is false
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if [ \"$$MCP_MODE\" = \"true\" ]; then exit 0; else curl -f http://localhost:3007/health; fi"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    # Add network configuration
+    networks:
+      - librechat_network
+      - mcp-services

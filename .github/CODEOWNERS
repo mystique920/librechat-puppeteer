@@ -1,0 +1,19 @@
+# CODEOWNERS file for Puppeteer Service
+# This file defines code ownership for the repository
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @mystique920
+
+# Specific ownership for Docker configuration
+Dockerfile @mystique920
+docker-compose.yml @mystique920
+
+# Specific ownership for MCP implementation
+/src/mcp/ @mystique920
+
+# Specific ownership for API controllers
+/src/controllers/ @mystique920
+
+# Specific ownership for documentation
+*.md @mystique920

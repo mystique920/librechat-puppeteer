@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and Discussions
+    url: https://github.com/mystique920/librechat-puppeteer/discussions
+    about: Please ask and answer questions here.
+  - name: Security Vulnerabilities
+    url: https://github.com/mystique920/librechat-puppeteer/security/policy
+    about: Please report security vulnerabilities as described in our security policy.

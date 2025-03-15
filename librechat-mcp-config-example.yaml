@@ -1,0 +1,32 @@
+# LibreChat MCP Configuration Example
+# This file shows how to configure LibreChat to use the Puppeteer MCP service
+
+# MCP Servers Configuration
+mcpServers:
+  # Other MCP servers may be defined here...
+  
+  # Puppeteer MCP Server Configuration
+  puppeteer-service:
+    # Use stdio transport type for Docker exec communication
+    type: stdio
+    
+    # Command to execute the MCP server
+    command: docker
+    
+    # Arguments for the command
+    args:
+      - exec
+      - -i
+      - puppeteer-service
+      - node
+      - /app/dist/index.js
+    
+    # Environment variables for the MCP server
+    env:
+      - MCP_MODE=true
+    
+    # Timeout in milliseconds (5 minutes)
+    timeout: 300000
+    
+    # Optional icon path (if you have one)
+    # iconPath: /path/to/icon.svg
