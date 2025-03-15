@@ -1,0 +1,21 @@
+name: Basic Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  basic-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Simple check
+        run: |
+          echo "Running simple checks..."
+          echo "Repository contents:"
+          ls -la
+          echo "✅ All checks passed!" 

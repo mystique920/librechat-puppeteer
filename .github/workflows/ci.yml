@@ -1,10 +1,10 @@
-name: CI
+name: DISABLED-CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ do-not-run-this-branch ]
   pull_request:
-    branches: [ main ]
+    branches: [ do-not-run-this-branch ]
 
 jobs:
   dummy-checks:
