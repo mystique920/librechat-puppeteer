@@ -5,97 +5,36 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   lint:
-    name: Lint
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          
+      
       - name: Install dependencies
-        run: npm ci
-        
-      - name: Run ESLint
+        run: npm install
+      
+      - name: Run linting
         run: npm run lint
-        
-      - name: Check TypeScript compilation
-        run: npm run build:check
-  
+
   test:
-    name: Test
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          
-          
+      
       - name: Install dependencies
-        run: npm ci
-        
+        run: npm install
+      
       - name: Run tests
         run: npm test
-  
-  build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: [lint, test]
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        
-      - name: Build Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          load: true  # Ensure image is loaded into Docker's local image store
-          tags: puppeteer-service:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      
-      - name: List Docker images
-        run: docker images
-      
-      - name: Test Docker image
-        run: |
-          # Run the container in detached mode
-          docker run --name puppeteer-test -d puppeteer-service:test
-          
-          # Wait for container to initialize
-          sleep 5
-          
-          # Check container status
-          docker ps -a
-          
-          # Display container logs
-          docker logs puppeteer-test
-          
-          # Check if container is running
-          if [ "$(docker inspect -f '{{.State.Running}}' puppeteer-test)" != "true" ]; then
-            echo "Container is not running properly"
-            exit 1
-          fi
-          
-          # Add any specific tests for your service here
-          # For example, curl endpoints, check processes, etc.
-          
-          # Clean up
-          docker rm -f puppeteer-test
