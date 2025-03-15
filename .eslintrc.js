@@ -16,9 +16,14 @@ module.exports = {
   },
   rules: {
     // Add custom rules here
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': ['warn', { 
+      argsIgnorePattern: '^_|^next$|^options$|^handler$',
+      varsIgnorePattern: '^_|^server$'
+    }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
     'no-console': 'off',
+    'no-useless-escape': 'warn',
   },
   ignorePatterns: ['dist/', 'node_modules/', '*.js'],
 }; 
