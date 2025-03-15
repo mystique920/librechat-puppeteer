@@ -29,11 +29,11 @@ jobs:
           echo "Git log (recent commits):"
           git log --oneline -n 5
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          # Disable caching completely
+      - name: Manual Node.js Setup
+        run: |
+          echo "Using system Node.js instead of actions/setup-node"
+          node --version
+          npm --version
       
       - name: Install dependencies
         run: |
@@ -66,11 +66,11 @@ jobs:
           echo "Git log (recent commits):"
           git log --oneline -n 5
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          # Disable caching completely
+      - name: Manual Node.js Setup
+        run: |
+          echo "Using system Node.js instead of actions/setup-node"
+          node --version
+          npm --version
       
       - name: Install dependencies
         run: |
