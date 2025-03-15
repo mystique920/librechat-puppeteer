@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true  # Don't fail the workflow if linting fails
       
       - name: Run tests
-        run: npm test -- --passWithNoTests
+        run: npm test
         continue-on-error: true  # Don't fail the workflow if tests fail
       
       - name: Summary
